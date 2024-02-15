@@ -4,6 +4,13 @@ Copyright © 2023 Shell M. Shrader <shell at shellware dot com>
 This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
 as published by Sam Hocevar. See the COPYING file for more details.
+
+Updated to resolve issues with: 
+  ESP8266 not compiling 
+  BME280 not detected when on alternate I2C addresses
+
+rogerw-gh February 2024
+
 ****************************************************************************/
 #include "main.h"
 
@@ -163,7 +170,10 @@ void setup() {
   updateExtraConfigItem(PUBLISH_INTERVAL, String(bme280_config.publish_interval));
   updateExtraConfigItem(NWS_STATION, bme280_config.nws_station);
 
-  if (!bme.begin()) {
+/*default Adafruit addresss is 0x77, which is in the BME280 drivers, not all BME280 clones have the default
+of 0x77, many have 0x76.  Use Arduino I2C scanner sketch to confirm addresses. rogerw-gh*/
+
+  if (!bme.begin(0x76)) {
     LOG_PRINTLN("\nCould not find a valid BME280 sensor, check wiring!");
   } else {
     bme_temp->printSensorDetails();

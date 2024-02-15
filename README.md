@@ -39,3 +39,10 @@ https://w1.weather.gov/xml/current_obs/index.xml
 
 #### Filesystem & Flash Web OTA
 <img width="364" alt="Screenshot 2023-10-27 at 8 52 48 PM" src="https://github.com/synman/BME280/assets/1299716/c3ef6776-ac74-46e9-88e6-7a2656217d5e">
+
+
+#### BME280 Clones
+Many BME 280 clones use I2C address 0x76, not the default Adafruit 0x77, the code initialises without passing the address to the setup process.  Added address and comment to main.cpp
+
+#### Build flags
+Some of the included dependent code builds expect a build flag for compilation, some check only for ESP32 in an if, else, but others also check for ESP8266 as a build flag, so platform.ini has a section added to pass the build flag to the compiler.
